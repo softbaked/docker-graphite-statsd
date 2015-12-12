@@ -1,5 +1,4 @@
-[![Docker Hub](http://img.shields.io/badge/docker-hub-brightgreen.svg?style=flat)](https://registry.hub.docker.com/u/hopsoft/graphite-statsd/)
-[![Gratipay](http://img.shields.io/badge/gratipay-contribute-009bef.svg?style=flat)](https://gratipay.com/hopsoft/)
+[![Docker Hub](http://img.shields.io/badge/docker-hub-brightgreen.svg?style=flat)](https://registry.hub.docker.com/u/softbaked/graphite-statsd/)
 
 # Docker Image for Graphite & Statsd
 
@@ -17,8 +16,7 @@ sudo docker run -d \
   -p 80:80 \
   -p 2003:2003 \
   -p 8125:8125/udp \
-  -p 8126:8126 \
-  hopsoft/graphite-statsd
+  softbaked/graphite-statsd
 ```
 
 This starts a Docker container named: **graphite**
@@ -45,11 +43,7 @@ That's it, you're done ... almost.
 
 | Host              | Container                  | Notes                           |
 | ----------------- | -------------------------- | ------------------------------- |
-| DOCKER ASSIGNED   | /opt/graphite              | graphite config & stats storage |
-| DOCKER ASSIGNED   | /etc/nginx                 | nginx config                    |
-| DOCKER ASSIGNED   | /opt/statsd                | statsd config                   |
-| DOCKER ASSIGNED   | /etc/logrotate.d           | logrotate config                |
-| DOCKER ASSIGNED   | /var/log                   | log files                       |
+| DOCKER ASSIGNED   | /opt/graphite/storage      | graphite stats storage          |
 
 ### Base Image
 
@@ -121,19 +115,19 @@ retentions = 60s:12h # OK
 
 ## Statsd Admin Management Interface
 
-A management interface (default on port 8126) allows you to manage statsd and retrieve stats 
+A management interface (default on port 8126) allows you to manage statsd and retrieve stats
 
 ```sh
 # show all current counters
 echo counters | nc localhost 8126
 ```
 
-more info and additional commands: [admin_interface](https://github.com/etsy/statsd/blob/master/docs/admin_interface.md) 
+more info and additional commands: [admin_interface](https://github.com/etsy/statsd/blob/master/docs/admin_interface.md)
 
 ## A Note on Disk Space
 
 If running this image on cloud infrastructure such as AWS,
-you should consider mounting `/opt/graphite` & `/var/log` on a larger volume.
+you should consider mounting `/opt/graphite/storage` on a larger volume.
 
 1. Configure the host to mount a large EBS volume.
 1. Specify the volume mounts when starting the container.
@@ -142,12 +136,11 @@ you should consider mounting `/opt/graphite` & `/var/log` on a larger volume.
     sudo docker run -d \
       --name graphite \
       --restart=always \
-      -v /path/to/ebs/graphite:/opt/graphite \
-      -v /path/to/ebs/log:/var/log \
+      -v /path/to/ebs/graphite:/opt/graphite/storage \
       -p 80:80 \
       -p 2003:2003 \
       -p 8125:8125/udp \
-      hopsoft/graphite-statsd
+      softbaked/graphite-statsd
     ```
 
 ## Additional Reading
@@ -163,15 +156,15 @@ Build the image yourself.
 
 ### OSX
 
-1. `git clone https://github.com/hopsoft/docker-graphite-statsd.git`
+1. `git clone https://github.com/softbaked/docker-graphite-statsd.git`
 1. `cd docker-graphite-statsd`
 1. `vagrant up`
 1. `vagrant ssh`
-1. `sudo docker build -t hopsoft/graphite-statsd /vagrant`
+1. `sudo docker build -t softbaked/graphite-statsd /vagrant`
 
-**Note**: Pay attention to the forwarded ports in the [Vagrantfile](https://github.com/hopsoft/docker-graphite-statsd/blob/master/Vagrantfile).
+**Note**: Pay attention to the forwarded ports in the [Vagrantfile](https://github.com/softbaked/docker-graphite-statsd/blob/master/Vagrantfile).
 
 ### Linux
 
-1. `git clone https://github.com/hopsoft/docker-graphite-statsd.git`
-1. `sudo docker build -t hopsoft/graphite-statsd ./docker-graphite-statsd`
+1. `git clone https://github.com/softbaked/docker-graphite-statsd.git`
+1. `sudo docker build -t softbaked/graphite-statsd ./docker-graphite-statsd`

@@ -1,5 +1,6 @@
 FROM phusion/baseimage:0.9.15
-MAINTAINER Nathan Hopkins <natehop@gmail.com>
+MAINTAINER Prathan Thananart <pop@page365.net>
+# Forked from hopsoft/graphite-statsd
 
 #RUN echo deb http://archive.ubuntu.com/ubuntu $(lsb_release -cs) main universe > /etc/apt/sources.list.d/universe.list
 RUN apt-get -y update\
@@ -76,7 +77,7 @@ RUN apt-get clean\
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # defaults
-EXPOSE 80:80 2003:2003 8125:8125/udp
-VOLUME ["/opt/graphite", "/etc/nginx", "/opt/statsd", "/etc/logrotate.d", "/var/log"]
+EXPOSE 80:80 2003:2003 8125:8125/udp 8126:8126
+VOLUME ["/opt/graphite/storage"]
 ENV HOME /root
 CMD ["/sbin/my_init"]
