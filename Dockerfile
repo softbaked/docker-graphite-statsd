@@ -78,6 +78,6 @@ RUN apt-get clean\
 
 # defaults
 EXPOSE 80:80 2003:2003 8125:8125/udp 8126:8126
-VOLUME ["/opt/graphite/storage"]
+VOLUME ["/opt/graphite/storage/whisper"]
 ENV HOME /root
 CMD ["/sbin/my_init"]
